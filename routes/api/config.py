@@ -8,4 +8,4 @@ async def ping():
 
 @router.get("/pong")
 async def pong():
-    return {"response": "ping!!"}
+    return {"response": "pong!!"}
