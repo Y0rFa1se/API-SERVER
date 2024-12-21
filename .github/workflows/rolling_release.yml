@@ -1,9 +1,9 @@
 name: Deploy to Server
 
 on:
-push:
-branches:
-    - main  # main 브랜치에 푸시될 때 트리거됨
+    push:
+        branches:
+            - main  # main 브랜치에 푸시될 때 트리거됨
 
 jobs:
     deploy:
