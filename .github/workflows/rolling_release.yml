@@ -35,6 +35,7 @@ jobs:
 
               docker stop api_server-8001 || true
               docker rm api_server-8001 || true
+              docker rmi api_server-8001 || true
 
             elif [ -n "$(docker ps -q -f "name=api_server-8002")" ]; then
               docker build -t api_server-8001 .
@@ -47,6 +48,7 @@ jobs:
 
               docker stop api_server-8002 || true
               docker rm api_server-8002 || true
+              docker rmi api_server-8002 || true
 
             else
               docker build -t api_server-8001 .
