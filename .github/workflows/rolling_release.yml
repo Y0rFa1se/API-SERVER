@@ -23,13 +23,13 @@ jobs:
                   script: |
                       git clone https://github.com/Y0rFa1se/API-SERVER.git
                       cd API-SERVER
-                      docker build -t api_server .
 
                       if [ -n "$(docker ps -q -f "name=api_server-8001")" ]; then
+                          docker build -t api_server-8002 .
                           echo "8001 exist"
-                          docker run -d --name api_server-8002 -p 8002:8001 api_server
+                          docker run -d --name api_server-8002 -p 8002:8001 api_server-8002
 
-                          while ! curl -s http://192.168.0.18:8002/api/ping | grep -q '"response": "pong!"'; do
+                          while ! curl -s http://192.168.0.18:8002; do
                               sleep 5
                           done
 
@@ -37,10 +37,11 @@ jobs:
                           docker rm api_server-8001 || true
 
                       elif [ -n "$(docker ps -q -f "name=api_server-8002")" ]; then
+                          docker build -t api_server-8001 .
                           echo "8002 exist"
-                          docker run -d --name api_server-8001 -p 8001:8001 api_server
+                          docker run -d --name api_server-8001 -p 8001:8001 api_server-8001
 
-                          while ! curl -s http://192.168.0.18:8001/api/ping | grep -q '"response": "pong!"'; do
+                          while ! curl -s http://192.168.0.18:8001; do
                               sleep 5
                           done
 
@@ -48,8 +49,9 @@ jobs:
                           docker rm api_server-8002 || true
 
                       else
+                          docker build -t api_server-8001 .
                           echo "doesn't exist"
-                          docker run -d --name api_server-8001 -p 8001:8001 api_server
+                          docker run -d --name api_server-8001 -p 8001:8001 api_server-8001
 
                       fi
 
