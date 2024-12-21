@@ -1,20 +1,20 @@
-name: Deploy to Server
+    name: Deploy to Server
 
-on:
-  push:
+    on:
+    push:
     branches:
-      - main  # main 브랜치에 푸시될 때 트리거됨
+        - main  # main 브랜치에 푸시될 때 트리거됨
 
-jobs:
-  deploy:
+    jobs:
+    deploy:
     runs-on: ubuntu-latest
     environment: server_config
 
     steps:
-      - name: Checkout code
+        - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to remote server
+        - name: Deploy to remote server
         uses: appleboy/ssh-action@v0.1.5
         with:
             host: ${{ secrets.SERVER_HOST }}
@@ -26,6 +26,7 @@ jobs:
                 docker build -t api_server .
 
                 if docker ps -q -f "name=api_server-8001"; then
+                    echo "8001 exist"
                     docker run -d --name api_server-8002 -p 8002:8001 api_server
 
                     while ! curl -s http://localhost:8002/api/ping | grep -q '"response": "pong"'; do
@@ -36,6 +37,7 @@ jobs:
                     docker rm api_server-8001 || true
 
                 elif docker ps -q -f "name=api_server-8002"; then
+                    echo "8002 exist"
                     docker run -d --name api_server-8001 -p 8001:8001 api_server
 
                     while ! curl -s http://localhost:8001/api/ping | grep -q '"response": "pong"'; do
@@ -46,6 +48,7 @@ jobs:
                     docker rm api_server-8002 || true
 
                 else
+                    echo "doesn't exist"
                     docker run -d --name api_server-8001 -p 8001:8001 api_server
 
                 fi
