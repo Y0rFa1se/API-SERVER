@@ -1,15 +1,11 @@
-#NOT TESTED YET!!
+FROM python:3.12-slim
 
-FROM nginx
+WORKDIR /app
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY . /app
 
-RUN apt-get update && apt-get install -y certbot python3-certbot-nginx cron
-RUN certbot --nginx --non-interactive --agree-tos --email "y0rfa1se0@gmail.com" -d "y0rfa1se.duckdns.org"
-RUN echo "0 3 * * * certbot renew --quiet && nginx -s reload" > /etc/cron.d/certbot-renew
-RUN chmod 0644 /etc/cron.d/certbot-renew
-RUN service cron start
+RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 443 80
+EXPOSE 8001
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "app:app", "--bind", "0.0.0.0:8001"]
