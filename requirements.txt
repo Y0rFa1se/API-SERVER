@@ -5,3 +5,5 @@ aiofiles
 python-multipart
 python-dotenv
 gunicorn
+openai
+pymysql
