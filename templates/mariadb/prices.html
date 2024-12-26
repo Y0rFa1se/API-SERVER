@@ -48,7 +48,7 @@
 <body>
     <h1>{{ ticker }} Prices</h1>
 
-    <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/mariadb/stock/prices/{{ ticker }}?password={{ password }}">
+    <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/api/mariadb/stock/prices/{{ ticker }}?password={{ password }}">
     <button onclick="copy_text()">Copy API Request</button>
 
     <table>

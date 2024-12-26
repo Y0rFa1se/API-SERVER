@@ -21,7 +21,7 @@ async def web_get_stock_tickers(request: Request):
     if password == os.getenv("GUEST_PASSWORD"):
         tickers = await get_stock_tickers()
 
-        return templates.TemplateResponse("tickers.html", {"request": request, "tickers": tickers})
+        return templates.TemplateResponse("tickers.html", {"request": request, "tickers": tickers, "password": password})
     
     else:
         return RedirectResponse(url="/mariadb/stock/authentification")
