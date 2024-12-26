@@ -36,7 +36,7 @@
 
             navigator.clipboard.writeText(text_to_copy)
                 .then(function() {
-                    alert("Copied the text: " + text_to_copy);
+                    alert("Copied the text!");
                 })
                 .catch(function(error) {
                     alert("Failed to copy text: " + error);
@@ -47,7 +47,7 @@
 <body>
     <h1>{{ ticker }} Prices</h1>
 
-    <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/mariadb/stock/prices/{{ ticker }}">
+    <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/mariadb/stock/prices/{{ ticker }}?password={{ password }}">
     <button onclick="copy_text()">Copy API Request</button>
 
     <table>

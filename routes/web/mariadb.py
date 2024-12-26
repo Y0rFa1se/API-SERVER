@@ -32,7 +32,7 @@ async def web_get_stock_prices(request: Request, ticker: str):
     if password == os.getenv("GUEST_PASSWORD"):
         prices = await get_stock_prices(ticker)
 
-        return templates.TemplateResponse("prices.html", {"request": request, "prices": prices, "ticker": ticker})
+        return templates.TemplateResponse("prices.html", {"request": request, "prices": prices, "ticker": ticker, "password": password})
     
     else:
         return RedirectResponse(url="/mariadb/stock/authentification")
