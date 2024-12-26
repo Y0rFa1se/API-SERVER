@@ -1,6 +1,5 @@
 import pymysql
 import os
-import re
 
 async def get_db_connection(db_name: str):
     connection = pymysql.connect(
@@ -15,29 +14,31 @@ async def get_db_connection(db_name: str):
 
     return connection
 
-async def is_query_safe(query: str):
-    modifying_keywords = [
-        r'\bINSERT\b', r'\bUPDATE\b', r'\bDELETE\b', r'\bDROP\b', r'\bALTER\b',
-        r'\bTRUNCATE\b', r'\bREPLACE\b', r'\bCREATE\b', r'\bRENAME\b', r'\bMERGE\b'
-    ]
-    
-    pattern = re.compile('|'.join(modifying_keywords), re.IGNORECASE)
-    
-    if pattern.search(query):
-        return True
-    return False
-
-async def query_db(password: str, db_name: str, query: str):
+async def get_stock_tickers(password: str):
     if password != os.getenv("GUEST_PASSWORD"):
         return "Incorrect password"
     
-    if await is_query_safe(query):
-        return "Unsafe query"
-    
-    conn = await get_db_connection(db_name)
+    conn = await get_db_connection("stock_prices")
     c = conn.cursor()
 
-    c.execute(query)
+    c.execute("SHOW TABLES")
+    result = c.fetchall()
+
+    conn.close()
+
+    return result
+
+async def get_stock_prices(password: str, ticker: str):
+    if password != os.getenv("GUEST_PASSWORD"):
+        return "Incorrect password"
+    
+    conn = await get_db_connection("stock_prices")
+    c = conn.cursor()
+
+    if not ticker.endswith("_prices"):
+        ticker += "_prices"
+
+    c.execute(f"SELECT * FROM {ticker}")
     result = c.fetchall()
 
     conn.close()
