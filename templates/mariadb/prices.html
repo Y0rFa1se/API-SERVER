@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ ticker }} Prices</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse; /* 테이블 셀 간 간격 없애기 */
+        }
+    
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+    
+        th {
+            background-color: #f2f2f2;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ ticker }} Prices</h1>
+
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Open</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Close</th>
+            <th>Volume</th>
+            <th>Dividends</th>
+            <th>Stock Splits</th>
+        </tr>
+        {% for price in prices %}
+            <tr>
+                <td>{{ price.date }}</td>
+                <td>{{ price.open }}</td>
+                <td>{{ price.high }}</td>
+                <td>{{ price.low }}</td>
+                <td>{{ price.close }}</td>
+                <td>{{ price.volume }}</td>
+                <td>{{ price.dividends }}</td>
+                <td>{{ price.stock_splits }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
