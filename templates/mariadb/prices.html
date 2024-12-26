@@ -32,13 +32,15 @@
 
     <script>
         function copy_text() {
-            var text_to_copy = document.getElementById("api_requests");
-            text_to_copy.select();
-            text_to_copy.setSelectionRange(0, 99999);
+            var text_to_copy = document.getElementById("api_requests").value;
 
-            document.execCommand("copy");
-
-            alert("Copied the text: " + text_to_copy.value);
+            navigator.clipboard.writeText(text_to_copy)
+                .then(function() {
+                    alert("Copied the text: " + text_to_copy);
+                })
+                .catch(function(error) {
+                    alert("Failed to copy text: " + error);
+                });
         }
     </script>
 </head>
