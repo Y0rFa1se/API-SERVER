@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tickers</title>
+
+    <script>
+        function copy_text() {
+            var text_to_copy = document.getElementById("api_requests");
+            text_to_copy.select();
+            text_to_copy.setSelectionRange(0, 99999);
+
+            document.execCommand("copy");
+
+            alert("Copied the text: " + text_to_copy.value);
+        }
+    </script>
 </head>
 <body>
     <h1>Tickers</h1>
+
+    <input type="hidden" id=""api_requests value="https://y0rfa1se.duckdns.org/mariadb/stock/tickers">
+    <button onclick="copy_text()">Copy API Request</button>
 
     <ul>
         {% for ticker in tickers %}
