@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="/icons/icon-128x128.png">
     <meta name="theme-color" content="#ffffff">
     
-    <title>Tickers</title>
+    <title>Files ls</title>
 
     <script>
         function copy_text() {
@@ -24,14 +24,16 @@
     </script>
 </head>
 <body>
-    <h1>Tickers</h1>
+    <h1>Files ls</h1>
 
-    <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/api/mariadb/stock/tickers?password={{ password }}">
+    <a href="/files/upload">Upload</a>
+
+    <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/api/files/ls?password={{ password }}">
     <button onclick="copy_text()">Copy API Request</button>
 
     <ul>
-        {% for ticker in tickers %}
-            <li><a href="/mariadb/stock/prices/{{ ticker }}">{{ ticker }}</a></li>
+        {% for file_name in files %}
+            <li><a href="/files/download/{{ file_name }}">{{ file_name }}</a></li>
         {% endfor %}
     </ul>
 </body>

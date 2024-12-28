@@ -14,3 +14,10 @@ async def get_stock_prices(ticker):
         prices = response.json()
 
     return prices
+
+async def get_files_ls():
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"http://localhost:8001/api/files/ls?password={os.getenv('GUEST_PASSWORD')}")
+        files = response.json()
+
+    return files

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/icon-128x128.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <title>Delete</title>
+
+    <script>
+        function copy_text() {
+            var text_to_copy = document.getElementById("api_requests").value;
+
+            navigator.clipboard.writeText(text_to_copy)
+                .then(function() {
+                    alert("Copied the text!");
+                })
+                .catch(function(error) {
+                    alert("Failed to copy text: " + error);
+                });
+        }
+
+        function delete_file(url) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error occurred while deleting file');
+                    }
+
+                    alert('File deleted successfully');
+                    window.location.href = "/files/ls";
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                    alert('Failed to delete the file. Please try again.');
+                });
+        }
+    </script>
+</head>
+<body>
+    <h2>Delete {{ file_name }}</h2>
+
+    <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/api/files/delete/{{ file_name }}?password={{ password }}">
+    <button onclick="copy_text()">Copy API Request</button>
+
+    <button onclick="delete_file('https:\/\/y0rfa1se.duckdns.org/api/files/delete/{{ file_name }}?password={{ password }}')">Delete</button>
+</body>
+</html>
