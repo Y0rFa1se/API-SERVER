@@ -12,8 +12,8 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates/mariadb")
 
 @router.get("/stock/authentification", response_class=HTMLResponse)
-async def authentification(request: Request):
-    return templates.TemplateResponse("authentification.html", {"request": request})
+async def authentification(request: Request, referer: str = "/mariadb/stock/tickers"):
+    return templates.TemplateResponse("authentification.html", {"request": request, "referer": referer})
 
 @router.get("/stock/tickers", response_class=HTMLResponse)
 async def web_get_stock_tickers(request: Request):
@@ -24,7 +24,7 @@ async def web_get_stock_tickers(request: Request):
         return templates.TemplateResponse("tickers.html", {"request": request, "tickers": tickers, "password": password})
     
     else:
-        return RedirectResponse(url="/mariadb/stock/authentification")
+        return RedirectResponse(url="/mariadb/stock/authentification?referer=/mariadb/stock/tickers")
     
 @router.get("/stock/prices/{ticker}", response_class=HTMLResponse)
 async def web_get_stock_prices(request: Request, ticker: str):
@@ -35,4 +35,4 @@ async def web_get_stock_prices(request: Request, ticker: str):
         return templates.TemplateResponse("prices.html", {"request": request, "prices": prices, "ticker": ticker, "password": password})
     
     else:
-        return RedirectResponse(url="/mariadb/stock/authentification")
+        return RedirectResponse(url="/mariadb/stock/authentification?referer=/mariadb/stock/prices/" + ticker)
