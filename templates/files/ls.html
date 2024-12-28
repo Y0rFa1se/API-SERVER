@@ -24,12 +24,15 @@
     </script>
 </head>
 <body>
+    <a href="/">Main Page</a>
+    <br>
     <h1>Files ls</h1>
-
-    <a href="/files/upload">Upload</a>
 
     <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/api/files/ls?password={{ password }}">
     <button onclick="copy_text()">Copy API Request</button>
+    <br>
+
+    <a href="/files/upload">Upload</a>
 
     <ul>
         {% for file_name in files %}

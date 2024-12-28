@@ -24,10 +24,13 @@
     </script>
 </head>
 <body>
+    <a href="/">Main Page</a>
+    <br>
     <h1>Upload</h1>
 
     <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/api/files/upload?password={{ password }}&file=@PUT_FILE_HERE">
     <button onclick="copy_text()">Copy API Request</button>
+    <br>
 
     <form id="upload" action="/api/files/upload?password={{ password }}" method="post" enctype="multipart/form-data">
         <input type="file" name="file" required>

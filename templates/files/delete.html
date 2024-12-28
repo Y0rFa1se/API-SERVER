@@ -40,10 +40,13 @@
     </script>
 </head>
 <body>
+    <a href="/">Main Page</a>
+    <br>
     <h2>Delete {{ file_name }}</h2>
 
     <input type="hidden" id="api_requests" value="https://y0rfa1se.duckdns.org/api/files/delete/{{ file_name }}?password={{ password }}">
     <button onclick="copy_text()">Copy API Request</button>
+    <br>
 
     <button onclick="delete_file('https:\/\/y0rfa1se.duckdns.org/api/files/delete/{{ file_name }}?password={{ password }}')">Delete</button>
 </body>
