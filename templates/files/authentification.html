@@ -19,7 +19,7 @@
 
             document.cookie = `${cookieName}=${encodeURIComponent(inputValue)};expires=${expiryDate.toUTCString()};path=/`;
 
-            window.loadtion.href = "{{ referer }}";
+            window.location.href = "{{ referer }}";
         }
     </script>
 </head>
