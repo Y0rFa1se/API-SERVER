@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 import os
 
@@ -11,6 +12,8 @@ load_dotenv()
 os.makedirs("../../storage/api_server_files", exist_ok=True)
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(test_router, prefix="/test")
 app.include_router(api_router, prefix="/api")
