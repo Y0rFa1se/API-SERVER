@@ -11,9 +11,9 @@ app = FastAPI()
 
 templates = Jinja2Templates(directory="templates/files")
 
-@router.get("/authentification", response_class=HTMLResponse)
-async def authentification(request: Request, referer: str = "/files/ls"):
-    return templates.TemplateResponse("authentification.html", {"request": request, "referer": referer})
+@router.get("/authentication", response_class=HTMLResponse)
+async def authentication(request: Request, referer: str = "/files/ls"):
+    return templates.TemplateResponse("authentication.html", {"request": request, "referer": referer})
 
 @router.get("/ls", response_class=HTMLResponse)
 async def web_get_stock_tickers(request: Request):
@@ -24,7 +24,7 @@ async def web_get_stock_tickers(request: Request):
         return templates.TemplateResponse("ls.html", {"request": request, "files": files["list"], "password": password})
     
     else:
-        return RedirectResponse(url="/files/authentification?referer=/files/ls")
+        return RedirectResponse(url="/files/authentication?referer=/files/ls")
     
 @router.get("/download/{file_name}", response_class=HTMLResponse)
 async def web_get_stock_prices(request: Request, file_name: str):
@@ -33,7 +33,7 @@ async def web_get_stock_prices(request: Request, file_name: str):
         return templates.TemplateResponse("download.html", {"request": request, "file_name": file_name, "password": password})
     
     else:
-        return RedirectResponse(url="/files/authentification?referer=/files/download/" + file_name)
+        return RedirectResponse(url="/files/authentication?referer=/files/download/" + file_name)
     
 @router.get("/upload", response_class=HTMLResponse)
 async def web_get_stock_prices(request: Request):
@@ -42,7 +42,7 @@ async def web_get_stock_prices(request: Request):
         return templates.TemplateResponse("upload.html", {"request": request, "password": password})
     
     else:
-        return RedirectResponse(url="/files/authentification?referer=/files/upload")
+        return RedirectResponse(url="/files/authentication?referer=/files/upload")
     
 @router.get("/delete/{file_name}", response_class=HTMLResponse)
 async def web_get_stock_prices(request: Request, file_name: str):
@@ -51,4 +51,4 @@ async def web_get_stock_prices(request: Request, file_name: str):
         return templates.TemplateResponse("delete.html", {"request": request, "file_name": file_name, "password": password})
     
     else:
-        return RedirectResponse(url="/files/authentification?referer=/files/delete/" + file_name)
+        return RedirectResponse(url="/files/authentication?referer=/files/delete/" + file_name)
