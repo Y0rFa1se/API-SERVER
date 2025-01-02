@@ -17,7 +17,7 @@
             const expiryDate = new Date();
             expiryDate.setHours(expiryDate.getHours() + 1);
 
-            document.cookie = `${cookieName}=${encodeURIComponent(inputValue)};expires=${expiryDate.toUTCString()};path=/`;
+            document.cookie = `${cookieName}=${encodeURIComponent(inputValue)};path=/`;
 
             window.location.href = "{{ referer }}";
         }
