@@ -1,9 +1,5 @@
 import chess
 import re
-import openai
-import os
-import dotenv
-
 
 class Chess:
     guide = True
@@ -49,6 +45,11 @@ class Chess:
 
         return board_str_ret
     
+    def reset(self) -> None:
+        self.board.reset()
+        self.san_history = []
+        self.fen_history = []
+    
     def get_fen(self) -> str:
         return self.board.fen()
     
@@ -64,7 +65,11 @@ class Chess:
         return san
     
     def get_raw_san(self) -> str:
-        return " ".join(self.san_history)
+        ret = ""
+        for san in self.san_history:
+            ret += san + " "
+
+        return ret
     
     def get_fen_history(self, idx: int) -> str:
         return self.fen_history[idx]
@@ -103,6 +108,7 @@ class Chess:
         encoded_san = ""
 
         match = self.san_pattern.match(san)
+        
         piece = match.group(1)
         file = match.group(2)
         rank = match.group(3)
@@ -239,13 +245,16 @@ class Chess:
 
         self.turn_end()
 
-    def play_with_illegal(self, move: str) -> None:
+    def play_with_illegal(self, move: str) -> bool:
         if move.startswith("O-O") or move.startswith("0-0") or move.startswith("o-o"):
             self.castling(move)
             
-            return
+            return True
         
-        move_coord, move, encoded_san = self.decode_san(move)
+        try:
+            move_coord, move, encoded_san = self.decode_san(move)
+        except:
+            return False
 
         self.delete_piece(move_coord)
         self.board.set_piece_at(chess.parse_square(move[1:]), chess.Piece.from_symbol(self.turn_piece(move[0])))
@@ -253,6 +262,8 @@ class Chess:
         self.fen_history.append(self.board.fen())
         self.san_history.append(encoded_san)
         self.turn_end()
+
+        return True
         
     def check(self) -> str:
         if self.board.is_checkmate():

@@ -23,6 +23,8 @@ app.add_middleware(
 )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/chess/static", StaticFiles(directory="chessboardjs-1.0.0"), name="chess_static")
+app.mount("/chess/img", StaticFiles(directory="chessboardjs-1.0.0/img"), name="chess")
 
 app.include_router(test_router, prefix="/test")
 app.include_router(api_router, prefix="/api")
