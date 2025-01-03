@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chess</title>
+    <link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+        crossorigin="anonymous"></script>
+    <script src="js/chessboard-1.0.0.min.js"></script>
+</head>
+<body>
+    <div id="board" style="width: 400px"></div>
+    <p id="san_history"></p>
+    <script>
+        var moveInProgress = false;
+
+        var board = ChessBoard('board', {
+            draggable: true,
+            dropOffBoard: 'trash',
+            position: 'start',
+            onDrop: function(source, target, piece, newPos, oldPos, orientation) {
+                if (moveInProgress) {
+                    return 'snapback';
+                }
+
+                moveInProgress = true;
+                board.draggable = false;
+                console.log(`Move attempted: ${piece} from ${source} to ${target}`);
+
+                $.ajax({
+                    url: `https://y0rfa1se.duckdns.org/api/chess/play_with_gpt?password={{ password }}&san_history=${san_history}&uci_move=${source}${target}`, // 서버 요청 URL
+                    method: 'GET',
+                    
+                    contentType: 'application/json',
+                    success: function(response) {
+                        console.log('Server response:', response);
+                        moveInProgress = false; // 플래그 해제
+                        board.draggable = true; // 체스판 활성화
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', status, error);
+                        moveInProgress = false; // 플래그 해제
+                        board.position(oldPos); // 이전 상태로 복원
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

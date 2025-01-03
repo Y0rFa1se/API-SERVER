@@ -13,6 +13,12 @@ async def render_requests(system: str, requests: str) -> dict:
         "content": requests
     }]
 
+async def render_system_requests(system: str) -> dict:
+    return [{
+        "role": "system",
+        "content": system
+    }]
+
 async def render_requests_with_image(system: str, requests: str, image_url: str) -> dict:
     return [{
         "role": "system",
@@ -32,7 +38,7 @@ async def render_requests_with_image(system: str, requests: str, image_url: str)
         }]
     }]
 
-async def openai_request(password: str, query: list, model: str) -> str:
+async def openai_request(password: str, query: list, model: str="gpt-4o-mini") -> str:
     if password != os.getenv("GUEST_PASSWORD"):
         return "Invalid password"
     
